@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IZYSMOKE: ULTRA MINIMAL</title>
+    <title>IZYSMOKE: PERFECT MINIMAL</title>
     <style>
         :root {
             --bg: #0b0914;
             --card-bg: rgba(22, 18, 38, 0.7);
-            --border: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.04);
             --accent: #ff9800;
             --liquid: #00b4db;
             --cartridge: #ec008c;
@@ -59,12 +59,11 @@
         .checkbox-cell input { transform: scale(1); accent-color: var(--accent); }
         
         .counter-btn { background: #18142c; color: white; border: 1px solid var(--border); width: 32px; height: 32px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; }
-        .mobile-info, .mobile-actions { display: none; }
 
         .title-liquid { color: var(--liquid); }
         .title-cartridge { color: var(--cartridge); }
 
-        /* 📱 УЛЬТРА-КОМПАКТНИЙ МОБІЛЬНИЙ АДАПТИВ */
+        /* 📱 АДАПТИВ: СУВОРЕ ВИРІВНЮВАННЯ ДЛЯ МОБІЛОК */
         @media (max-width: 768px) {
             header h1 { font-size: 1.3rem; }
             .btn-logout { position: static; display: block; margin: 8px auto 0 auto; height: 26px; padding: 4px 10px; }
@@ -78,38 +77,52 @@
                 justify-content: space-between;
                 background: rgba(255, 255, 255, 0.01);
                 border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-                padding: 8px 4px;
-                margin-bottom: 2px;
+                padding: 10px 2px;
+                margin-bottom: 0;
             }
 
-            /* Ховаємо ПК стовпчики */
-            table tr td:nth-child(1), /* Чекбокс на мобілці ховаємо ради простоти, акції через ПК краще */
+            /* Ховаємо зайві колонки */
+            table tr td:nth-child(1), 
             table tr td:nth-child(3), 
             table tr td:nth-child(4), 
             table tr td:nth-child(5),
             table tr td:nth-child(7),
             table tr td:nth-child(9) { display: none; }
 
-            /* Текст зліва (Назва + інфо в один рядок) */
+            /* Блок інфо (Ліворуч) */
             table tr td:nth-child(2) {
                 display: flex;
                 flex-direction: column;
-                max-width: 55%;
+                justify-content: center;
+                flex: 1; /* Займає весь вільний простір зліва */
+                padding-right: 8px;
+                min-width: 0; /* Дозволяє тексту коректно переноситись і не тиснути на кнопки */
             }
             
-            /* Назва товару стає клікабельною для видалення */
-            table tr td:nth-child(2) .m-name { font-size: 0.9rem; font-weight: 700; color: #fff; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer; }
-            table tr td:nth-child(2) .m-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+            table tr td:nth-child(2) .m-name { font-size: 0.9rem; font-weight: 700; color: #fff; line-height: 1.2; cursor: pointer; }
+            table tr td:nth-child(2) .m-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; line-height: 1.1; }
 
-            /* Блок кнопок і прибутку справа */
+            /* Блок кнопок (По центру/Праворуч) */
             table tr td:nth-child(6) {
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                justify-content: center;
+                width: 100px; /* Задаємо фіксовану ширину для кнопок */
+                flex-shrink: 0;
             }
-            .m-profit-tag { font-size: 0.8rem; font-weight: 700; color: var(--success); min-width: 45px; text-align: right; margin-left: 4px; }
             
-            table tr td:nth-child(8) { display: block; order: 3; }
+            /* Блок прибутку (Країній правий) */
+            table tr td:nth-child(8) {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                width: 65px; /* Задаємо фіксовану ширину для прибутку */
+                flex-shrink: 0;
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: var(--success);
+                text-align: right;
+            }
         }
     </style>
 </head>
@@ -139,6 +152,7 @@
         <div class="profit-amount"><span id="total-profit">0</span> ₴</div>
     </div>
 
+    <!-- Додавання товару -->
     <div class="box">
         <h2>✚ Додати на склад</h2>
         <form id="p-form" class="form-inline">
@@ -171,8 +185,9 @@
         </form>
     </div>
 
-    <div class="box" style="display: var(--pc-only, block);">
-        <h2>⚡ Масова Акція (Опціонально)</h2>
+    <!-- Масові Акції -->
+    <div class="box">
+        <h2>⚡ Масова Акція</h2>
         <div class="form-inline">
             <div class="form-group"><label>Ціна</label><input type="number" id="mass-promo-price"></div>
             <div class="form-group"><label>З числа</label><input type="date" id="mass-promo-start"></div>
@@ -182,6 +197,7 @@
         </div>
     </div>
 
+    <!-- РІДИНИ -->
     <div class="box">
         <h2><span class="title-liquid">💧 Рідини</span></h2>
         <div class="table-wrapper">
@@ -204,6 +220,7 @@
         </div>
     </div>
 
+    <!-- КАРТРИДЖІ -->
     <div class="box">
         <h2><span class="title-cartridge">🔋 Картриджі</span></h2>
         <div class="table-wrapper">
@@ -275,24 +292,28 @@
             tr.innerHTML = `
                 <td class="checkbox-cell"><input type="checkbox" class="select-item ${item.category}" data-index="${index}"></td>
                 
+                <!-- Інфо блок ліворуч -->
                 <td>
                     <span class="m-name" onclick="remove(${index})">${item.name}</span>
                     <span class="m-sub">Ціна: <b>${currentPrice}₴</b> | Зал: <b>${left}/${item.qty}шт</b></span>
                 </td>
                 
+                <!-- ПК поля -->
                 <td>${item.cost} ₴</td>
                 <td>${currentPrice} ₴</td>
                 <td>${left} / ${item.qty} шт</td>
                 
+                <!-- Лічильник продажів -->
                 <td>
                     <button class="counter-btn" type="button" onclick="sell(${index}, -1)">-</button>
-                    <span style="font-size:1rem; font-weight:700; margin:0 4px; display:inline-block; min-width:18px; text-align:center;">${item.sold}</span>
+                    <span style="font-size:1rem; font-weight:700; margin:0 6px; display:inline-block; min-width:16px; text-align:center;">${item.sold}</span>
                     <button class="counter-btn" type="button" onclick="sell(${index}, 1)">+</button>
                 </td>
                 
                 <td>${promoHTML}</td>
                 
-                <td class="m-profit-tag">${item.profit} ₴</td>
+                <!-- Чистий прибуток рядка -->
+                <td>${item.profit} ₴</td>
                 <td><button type="button" onclick="remove(${index})" class="btn-delete">✕</button></td>
             `;
 
