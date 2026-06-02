@@ -3,316 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IZYSMOKE: SECURE CRM</title>
+    <title>IZYSMOKE: MINIMAL CRM</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #060409 100%);
-            --card-bg: rgba(30, 24, 54, 0.65);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --bg-gradient: linear-gradient(135deg, #0d0a1b 0%, #120e24 100%);
+            --card-bg: rgba(25, 20, 45, 0.7);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --accent: #ff9800;
             --accent-gradient: linear-gradient(45deg, #ff9800, #ff5722);
-            --liquid-gradient: linear-gradient(45deg, #00b4db, #0083b0);
-            --cartridge-gradient: linear-gradient(45deg, #ec008c, #fc6767);
-            --success-gradient: linear-gradient(45deg, #11998e, #38ef7d);
-            --danger-gradient: linear-gradient(45deg, #ff416c, #ff4b2b);
-            
-            --text-color: #ffffff;
-            --text-muted: #a09cb0;
-            --shadow-3d: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            --liquid-color: #00b4db;
+            --cartridge-color: #ec008c;
+            --success: #38ef7d;
+            --danger: #ff416c;
+            --text: #ffffff;
+            --text-muted: #8e8a9f;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient);
             background-attachment: fixed;
-            color: var(--text-color);
+            color: var(--text);
             margin: 0;
-            padding: 15px 10px;
+            padding: 12px;
             min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: none; /* Приховано до авторизації */
-        }
-
-        /* Екран авторизації */
-        #auth-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 90vh;
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-3d);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .auth-card h2 {
-            border: none;
-            margin-bottom: 10px;
-            font-size: 1.8rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Шапка системи */
-        header {
-            position: relative;
-            text-align: center;
-            margin-bottom: 25px;
-            padding-top: 10px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #fff 30%, var(--text-muted) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; display: none; }
+        #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 85vh; }
         
-        header p {
-            color: #ff9800;
-            margin: 5px 0 0 0;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
+        .auth-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 30px 20px; border-radius: 16px; width: 100%; max-width: 360px; text-align: center;
         }
+        .auth-card h2 { margin: 0 0 20px 0; font-weight: 800; letter-spacing: 1px; color: var(--text); }
+
+        header { text-align: center; margin-bottom: 20px; position: relative; padding: 10px 0; }
+        header h1 { margin: 0; font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; }
+        header p { margin: 4px 0 0 0; color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
 
         .btn-logout {
-            position: absolute;
-            right: 5px;
-            top: 10px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-muted);
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .btn-logout:hover {
-            background: var(--danger-gradient);
-            color: white;
-            border-color: transparent;
+            position: absolute; right: 0; top: 12px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;
         }
 
-        @media (max-width: 600px) {
-            .btn-logout {
-                position: static;
-                display: block;
-                margin: 15px auto 0 auto;
-                width: 100px;
-            }
-        }
-
-        /* Елементи інтерфейсу */
         .box {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-3d);
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 16px; margin-bottom: 15px;
         }
 
-        .profit-box {
-            text-align: center;
-            padding: 15px;
-        }
+        .profit-box { text-align: center; padding: 20px 10px; }
+        .profit-box h3 { margin: 0; font-size: 0.9rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        .profit-amount { font-size: 2.4rem; font-weight: 900; color: var(--success); margin-top: 5px; }
 
-        .profit-box h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
+        h2 { margin-top: 0; font-size: 1.1rem; font-weight: 700; padding-bottom: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-        .profit-amount {
-            font-size: 2.6rem;
-            font-weight: 900;
-            background: var(--success-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        .top-grids {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 950px) {
-            .top-grids { grid-template-columns: 1.2fr 1fr; }
-        }
-
-        h2 {
-            margin-top: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .form-inline {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .form-inline .full-width {
-            grid-column: span 2;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+        .form-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-inline .full-width { grid-column: span 2; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
 
         input, select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(15, 12, 32, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            height: 45px;
+            width: 100%; padding: 10px; background: rgba(10, 8, 20, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08); color: white; border-radius: 8px; font-size: 0.9rem; height: 42px;
         }
-
-        input:focus, select:focus {
-            border-color: #ff9800;
-            outline: none;
-        }
+        input:focus, select:focus { border-color: var(--accent); outline: none; }
 
         .btn {
-            background: var(--accent-gradient);
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.95rem;
-            height: 45px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: background 0.2s;
-            width: 100%;
+            background: var(--accent-gradient); color: white; border: none; border-radius: 8px;
+            font-weight: 700; cursor: pointer; font-size: 0.85rem; height: 42px; text-transform: uppercase; letter-spacing: 0.5px; width: 100%;
         }
+        .btn-promo { background: #11998e; }
+        .btn-cancel-promo { background: rgba(255, 255, 255, 0.05); color: var(--danger); border: 1px solid rgba(255,65,108,0.2); }
 
-        .btn-promo { background: var(--success-gradient); }
-        .btn-cancel-promo {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ff4b2b;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            margin: 0 -5px;
-            padding: 0 5px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-            min-width: 750px;
-        }
-
-        th {
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            padding: 8px 12px;
-        }
-
-        td {
-            padding: 12px;
-            background: rgba(20, 16, 38, 0.4);
-            border-top: 1px solid rgba(255,255,255,0.03);
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            vertical-align: middle;
-        }
-
-        td:first-child { border-left: 1px solid rgba(255,255,255,0.03); border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        td:last-child { border-right: 1px solid rgba(255,255,255,0.03); border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+        /* ТАБЛИЦІ ДЛЯ ПК */
+        .table-wrapper { display: block; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; display: table; }
+        th { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; padding: 10px; font-weight: 600; }
+        td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
 
         .counter-btn {
-            background: #251f42;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-            width: 38px;
-            height: 38px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            background: #1c1733; color: white; border: 1px solid rgba(255,255,255,0.08);
+            width: 36px; height: 36px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 8px;
+            display: inline-flex; align-items: center; justify-content: center;
         }
+        .btn-delete { background: rgba(255, 65, 108, 0.1); color: var(--danger); border: 1px solid rgba(255, 65, 108, 0.15); padding: 5px 9px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
+        .badge-active { background: var(--success); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .checkbox-cell { width: 30px; text-align: center; }
+        .checkbox-cell input { transform: scale(1.1); accent-color: var(--accent); }
 
-        .badge-active {
-            background: var(--success-gradient);
-            color: white;
-            padding: 4px 6px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-block;
-            white-space: nowrap;
+        .title-liquid { color: var(--liquid-color); }
+        .title-cartridge { color: var(--cartridge-color); }
+
+        /* 📱 МОБІЛЬНИЙ АДАПТИВ (КАРТКИ ЗАМІСТЬ ТАБЛИЦЬ) */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            .btn-logout { position: static; display: block; margin: 10px auto 0 auto; width: 80px; padding: 4px; }
+            
+            /* Ховаємо класичну таблицю */
+            table thead { display: none; }
+            table, table tbody, table tr, table td { display: block; width: 100%; padding: 0; border: none; }
+            
+            /* Перетворюємо рядок на красиву картку товару */
+            table tr {
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(255, 255, 255, 0.04);
+                border-radius: 12px;
+                padding: 12px;
+                margin-bottom: 10px;
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                grid-template-areas: 
+                    "check name delete"
+                    "info actions actions"
+                    "promo profit profit";
+                align-items: center;
+                gap: 8px;
+            }
+
+            table tr td:nth-child(1) { grid-area: check; width: auto; } /* Чекбокс */
+            table tr td:nth-child(2) { grid-area: name; font-size: 1rem; font-weight: 700; } /* Назва */
+            table tr td:nth-child(9) { grid-area: delete; text-align: right; } /* Видалення (Х) */
+            
+            /* Блок інфо (Закупка, Ціна, Залишок) */
+            table tr td:nth-child(3), table tr td:nth-child(4), table tr td:nth-child(5) { display: none; } 
+            .mobile-info-block {
+                grid-area: info;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                font-size: 0.8rem;
+                color: var(--text-muted);
+            }
+            .mobile-info-block b { color: var(--text); }
+
+            /* Блок продажу (+ / -) */
+            table tr td:nth-child(6) { 
+                grid-area: actions; 
+                display: flex; 
+                align-items: center; 
+                justify-content: flex-end; 
+                gap: 10px;
+            }
+
+            table tr td:nth-child(7) { grid-area: promo; font-size: 0.8rem; } /* Акція */
+            table tr td:nth-child(8) { grid-area: profit; text-align: right; font-size: 0.9rem; font-weight: bold; } /* Прибуток */
         }
-
-        .btn-delete {
-            background: rgba(255, 65, 108, 0.1);
-            color: #ff416c;
-            border: 1px solid rgba(255, 65, 108, 0.2);
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .checkbox-cell { text-align: center; width: 40px; }
-        .checkbox-cell input { cursor: pointer; transform: scale(1.3); accent-color: #ff9800; }
-        .title-liquid { background: var(--liquid-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .title-cartridge { background: var(--cartridge-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
@@ -320,101 +158,99 @@
 <div id="auth-screen">
     <div class="auth-card">
         <h2>IZYSMOKE CRM</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">Авторизуйтесь для доступу до системи</p>
         <form id="auth-form">
-            <div style="text-align: left; margin-bottom: 12px;">
-                <input type="text" id="username-input" placeholder="Логін" required style="margin-bottom: 12px; padding-left: 15px;">
-                <input type="password" id="password-input" placeholder="Пароль" required style="padding-left: 15px;">
-            </div>
-            <button type="submit" class="btn" style="margin-top: 10px;">Увійти</button>
+            <input type="text" id="username-input" placeholder="Логін" required style="margin-bottom: 10px; padding-left: 10px;">
+            <input type="password" id="password-input" placeholder="Пароль" required style="margin-bottom: 15px; padding-left: 10px;">
+            <button type="submit" class="btn">Увійти</button>
         </form>
-        <p id="auth-error" style="color: #ff416c; font-size: 0.85rem; margin-top: 15px; display: none;">❌ Невірний логін або пароль!</p>
+        <p id="auth-error" style="color: var(--danger); font-size: 0.8rem; margin-top: 10px; display: none;">❌ Невірний логін або пароль</p>
     </div>
 </div>
 
 <div class="container" id="main-container">
     <header>
         <h1>IZYSMOKE</h1>
-        <p>Панель керування фінансами</p>
-        <button class="btn-logout" onclick="logout()">Вийти 🚪</button>
+        <p>Панель обліку</p>
+        <button class="btn-logout" onclick="logout()">Вийти</button>
     </header>
 
     <div class="box profit-box">
-        <h3>ЗАГАЛЬНИЙ ЧИСТИЙ ПРИБУТОК</h3>
+        <h3>Чистий прибуток</h3>
         <div class="profit-amount"><span id="total-profit">0</span> ₴</div>
     </div>
 
-    <div class="top-grids">
-        <div class="box">
-            <h2>✚ Новий товар</h2>
-            <form id="p-form" class="form-inline">
-                <div class="form-group">
-                    <label>Категорія</label>
-                    <select id="category">
-                        <option value="liquid">Рідина</option>
-                        <option value="cartridge">Картридж</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Назва / Смак</label>
-                    <input type="text" id="name" placeholder="Напр: Mint" required>
-                </div>
-                <div class="form-group">
-                    <label>К-сть (шт)</label>
-                    <input type="number" id="qty" value="10" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label>Закупка 1шт</label>
-                    <input type="number" id="cost" placeholder="грн" required>
-                </div>
-                <div class="form-group id-price-group full-width">
-                    <label>Ціна продажу</label>
-                    <input type="number" id="price" placeholder="грн" required>
-                </div>
-                <div class="full-width" style="margin-top: 4px;">
-                    <button type="submit" class="btn">Додати на склад</button>
-                </div>
-            </form>
-        </div>
+    <!-- Додавання товару -->
+    <div class="box">
+        <h2>✚ Новий товар</h2>
+        <form id="p-form" class="form-inline">
+            <div class="form-group">
+                <label>Категорія</label>
+                <select id="category">
+                    <option value="liquid">Рідина</option>
+                    <option value="cartridge">Картридж</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Назва / Смак</label>
+                <input type="text" id="name" placeholder="Назва" required>
+            </div>
+            <div class="form-group">
+                <label>К-сть (шт)</label>
+                <input type="number" id="qty" value="10" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>Закупка 1шт</label>
+                <input type="number" id="cost" placeholder="₴" required>
+            </div>
+            <div class="form-group full-width">
+                <label>Ціна продажу</label>
+                <input type="number" id="price" placeholder="₴" required>
+            </div>
+            <div class="full-width" style="margin-top: 5px;">
+                <button type="submit" class="btn">Додати</button>
+            </div>
+        </form>
+    </div>
 
-        <div class="box">
-            <h2>⚡ Акції для вибраних</h2>
-            <div class="form-inline">
-                <div class="form-group">
-                    <label>Акційна ціна</label>
-                    <input type="number" id="mass-promo-price" placeholder="грн">
-                </div>
-                <div class="form-group">
-                    <label>З якого числа</label>
-                    <input type="date" id="mass-promo-start">
-                </div>
-                <div class="form-group full-width">
-                    <label>По яке число</label>
-                    <input type="date" id="mass-promo-end">
-                </div>
-                <div style="margin-top: 4px;">
-                    <button type="button" class="btn btn-promo" onclick="applyMassPromo()">Запустити</button>
-                </div>
-                <div style="margin-top: 4px;">
-                    <button type="button" class="btn btn-cancel-promo" onclick="cancelMassPromo()">Відмінити</button>
-                </div>
+    <!-- Управління Акціями -->
+    <div class="box">
+        <h2>⚡ Масова Акція</h2>
+        <div class="form-inline">
+            <div class="form-group">
+                <label>Ціна по акції</label>
+                <input type="number" id="mass-promo-price" placeholder="₴">
+            </div>
+            <div class="form-group">
+                <label>З якого числа</label>
+                <input type="date" id="mass-promo-start">
+            </div>
+            <div class="form-group full-width">
+                <label>По яке число</label>
+                <input type="date" id="mass-promo-end">
+            </div>
+            <div style="margin-top: 5px;">
+                <button type="button" class="btn btn-promo" onclick="applyMassPromo()">Старт</button>
+            </div>
+            <div style="margin-top: 5px;">
+                <button type="button" class="btn btn-cancel-promo" onclick="cancelMassPromo()">Скинуть</button>
             </div>
         </div>
     </div>
 
+    <!-- РІДИНИ -->
     <div class="box">
         <h2><span class="title-liquid">💧 Рідини</span></h2>
         <div class="table-wrapper">
-            <table id="liquid-table">
+            <table>
                 <thead>
                     <tr>
                         <th class="checkbox-cell"><input type="checkbox" onclick="toggleAll('liquid', this)"></th>
-                        <th>Назва смаку</th>
+                        <th>Смак</th>
                         <th>Закупка</th>
-                        <th>Ціна сьогодні</th>
-                        <th>Залишок / Всього</th>
-                        <th>Продати (+/-)</th>
-                        <th>Статус Акції</th>
+                        <th>Ціна</th>
+                        <th>Залишок</th>
+                        <th>Продати</th>
+                        <th>Акція</th>
                         <th>Прибуток</th>
                         <th>Дія</th>
                     </tr>
@@ -424,19 +260,20 @@
         </div>
     </div>
 
+    <!-- КАРТРИДЖІ -->
     <div class="box">
         <h2><span class="title-cartridge">🔋 Картриджі</span></h2>
         <div class="table-wrapper">
-            <table id="cartridge-table">
+            <table>
                 <thead>
                     <tr>
                         <th class="checkbox-cell"><input type="checkbox" onclick="toggleAll('cartridge', this)"></th>
-                        <th>Модель / Опір</th>
+                        <th>Модель</th>
                         <th>Закупка</th>
-                        <th>Ціна сьогодні</th>
-                        <th>Залишок / Всього</th>
-                        <th>Продати (+/-)</th>
-                        <th>Статус Акції</th>
+                        <th>Ціна</th>
+                        <th>Залишок</th>
+                        <th>Продати</th>
+                        <th>Акція</th>
                         <th>Прибуток</th>
                         <th>Дія</th>
                     </tr>
@@ -448,29 +285,22 @@
 </div>
 
 <script>
-    // НАЛАШТУВАННЯ ДАНИХ ДЛЯ ВХОДУ
     const SECRET_USERNAME = 'izysmoke';
-    const SECRET_PASSWORD = '1236';
+    const SECRET_PASSWORD = '1111';
 
-    // Контроль авторизації
     document.getElementById('auth-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        const userInp = document.getElementById('username-input').value.trim();
-        const passInp = document.getElementById('password-input').value;
-        
-        if (userInp === SECRET_USERNAME && passInp === SECRET_PASSWORD) {
+        if (document.getElementById('username-input').value.trim() === SECRET_USERNAME && 
+            document.getElementById('password-input').value === SECRET_PASSWORD) {
             sessionStorage.setItem('izysmoke_auth', 'true');
             showMainSystem();
         } else {
             document.getElementById('auth-error').style.display = 'block';
-            document.getElementById('password-input').value = '';
         }
     });
 
     function checkAuth() {
-        if (sessionStorage.getItem('izysmoke_auth') === 'true') {
-            showMainSystem();
-        }
+        if (sessionStorage.getItem('izysmoke_auth') === 'true') showMainSystem();
     }
 
     function showMainSystem() {
@@ -484,16 +314,7 @@
         window.location.reload();
     }
 
-    // ЛОГІКА БАЗА ДАНИХ
-    let db = JSON.parse(localStorage.getItem('izismoke_v7_db'));
-
-    if (!db || db.length === 0) {
-        db = [
-            { category: 'liquid', name: "Chaser Black Mint", qty: 10, cost: 180, price: 270, sold: 0, profit: 0, history: [], pPrice: null, pStart: null, pEnd: null },
-            { category: 'cartridge', name: "XROS Pod 0.8", qty: 25, cost: 95, price: 160, sold: 0, profit: 0, history: [], pPrice: null, pStart: null, pEnd: null }
-        ];
-        localStorage.setItem('izismoke_v7_db', JSON.stringify(db));
-    }
+    let db = JSON.parse(localStorage.getItem('izismoke_v7_db')) || [];
 
     function isPromo(start, end) {
         if (!start || !end) return false;
@@ -506,8 +327,6 @@
 
         const liquidList = document.getElementById('liquid-list');
         const cartridgeList = document.getElementById('cartridge-list');
-        if (!liquidList || !cartridgeList) return;
-        
         liquidList.innerHTML = '';
         cartridgeList.innerHTML = '';
         let totalProfit = 0;
@@ -518,30 +337,35 @@
             const left = item.qty - item.sold;
             totalProfit += item.profit;
 
-            let promoBadgeHTML = '<span style="color:var(--text-muted)">—</span>';
+            let promoHTML = '<span style="color:var(--text-muted)">—</span>';
             if (item.pPrice) {
-                if (active) {
-                    promoBadgeHTML = `<span class="badge-active">🔥 Акція: ${item.pPrice}₴</span>`;
-                } else {
-                    promoBadgeHTML = `<span style="color:var(--text-muted); font-size:0.8rem;">Очікує (${item.pPrice}₴)</span>`;
-                }
+                promoHTML = active ? `<span class="badge-active">% ${item.pPrice}₴</span>` : `<span style="color:var(--text-muted); font-size:0.75rem;">Скоро</span>`;
             }
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="checkbox-cell"><input type="checkbox" class="select-item ${item.category}" data-index="${index}"></td>
-                <td><span style="font-weight:600; font-size:1rem;">${item.name}</span></td>
-                <td style="color:var(--text-muted); font-size:0.85rem;">${item.cost} ₴</td>
-                <td style="color:#ff9800; font-weight:700;">${currentPrice} ₴</td>
-                <td><span style="color:#fff; font-weight:600;">${left}</span> <span style="color:var(--text-muted); font-size:0.8rem;">/ ${item.qty} шт</span></td>
-                <td style="white-space: nowrap;">
+                <td><span style="font-weight:600;">${item.name}</span></td>
+                
+                <!-- Для ПК версії -->
+                <td>${item.cost} ₴</td>
+                <td>${currentPrice} ₴</td>
+                <td>${left} / ${item.qty} шт</td>
+                
+                <!-- Адаптивний блок для мобілок (ховається на ПК) -->
+                <div class="mobile-info-block">
+                    <span>Залишок: <b>${left} шт</b> з ${item.qty}</span>
+                    <span>Ціна: <b style="color:var(--accent)">${currentPrice} ₴</b> | Зак: ${item.cost} ₴</span>
+                </div>
+
+                <td>
                     <button class="counter-btn" type="button" onclick="sell(${index}, -1)">-</button>
-                    <span style="font-size:1.1rem; font-weight:700; margin:0 6px; display:inline-block; min-width:18px; text-align:center;">${item.sold}</span>
+                    <span style="font-size:1.1rem; font-weight:700; margin:0 5px; display:inline-block; min-width:20px; text-align:center;">${item.sold}</span>
                     <button class="counter-btn" type="button" onclick="sell(${index}, 1)">+</button>
                 </td>
-                <td>${promoBadgeHTML}</td>
-                <td style="color:#38ef7d; font-weight:700;">${item.profit} ₴</td>
-                <td><button type="button" onclick="remove(${index})" class="btn-delete">Х</button></td>
+                <td>${promoHTML}</td>
+                <td style="color:var(--success); font-weight:700;">${item.profit} ₴</td>
+                <td><button type="button" onclick="remove(${index})" class="btn-delete">✕</button></td>
             `;
 
             if (item.category === 'liquid') {
@@ -590,15 +414,15 @@
         const pStart = document.getElementById('mass-promo-start').value;
         const pEnd = document.getElementById('mass-promo-end').value;
 
-        if (!pPrice || !pStart || !pEnd) return alert("Заповніть всі поля акції!");
+        if (!pPrice || !pStart || !pEnd) return alert("Заповніть акцію повністю!");
         const checkboxes = document.querySelectorAll('.select-item:checked');
-        if (checkboxes.length === 0) return alert("Не вибрано жодного товару!");
+        if (checkboxes.length === 0) return alert("Виберіть товари галочкою!");
 
         checkboxes.forEach(cb => {
             const index = cb.getAttribute('data-index');
             db[index].pPrice = Number(pPrice); db[index].pStart = pStart; db[index].pEnd = pEnd;
         });
-        clearFormAndCheckboxes(); save();
+        clearPromoForm(); save();
     }
 
     window.cancelMassPromo = function() {
@@ -608,10 +432,10 @@
             const index = cb.getAttribute('data-index');
             db[index].pPrice = null; db[index].pStart = null; db[index].pEnd = null;
         });
-        clearFormAndCheckboxes(); save();
+        clearPromoForm(); save();
     }
 
-    function clearFormAndCheckboxes() {
+    function clearPromoForm() {
         document.getElementById('mass-promo-price').value = '';
         document.getElementById('mass-promo-start').value = '';
         document.getElementById('mass-promo-end').value = '';
@@ -624,12 +448,11 @@
     }
 
     window.remove = function(index) {
-        if(confirm(`Видалити товар?`)) { db.splice(index, 1); save(); }
+        if(confirm(`Видалити цей товар зі складу?`)) { db.splice(index, 1); save(); }
     }
 
     function save() { localStorage.setItem('izismoke_v7_db', JSON.stringify(db)); render(); }
     
-    // Перевірка авторизації
     checkAuth();
 </script>
 </body>
