@@ -3,153 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IZYSMOKE: MINIMAL CRM</title>
+    <title>IZYSMOKE: ULTRA MINIMAL</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0d0a1b 0%, #120e24 100%);
-            --card-bg: rgba(25, 20, 45, 0.7);
-            --card-border: rgba(255, 255, 255, 0.05);
+            --bg: #0b0914;
+            --card-bg: rgba(22, 18, 38, 0.7);
+            --border: rgba(255, 255, 255, 0.05);
             --accent: #ff9800;
-            --accent-gradient: linear-gradient(45deg, #ff9800, #ff5722);
-            --liquid-color: #00b4db;
-            --cartridge-color: #ec008c;
+            --liquid: #00b4db;
+            --cartridge: #ec008c;
             --success: #38ef7d;
             --danger: #ff416c;
             --text: #ffffff;
-            --text-muted: #8e8a9f;
+            --text-muted: #7e7a8f;
         }
 
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-
-        body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text);
-            margin: 0;
-            padding: 12px;
-            min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; display: none; }
-        #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 85vh; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding: 10px; min-height: 100vh; }
+        .container { max-width: 1000px; margin: 0 auto; display: none; }
         
-        .auth-card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            padding: 30px 20px; border-radius: 16px; width: 100%; max-width: 360px; text-align: center;
-        }
-        .auth-card h2 { margin: 0 0 20px 0; font-weight: 800; letter-spacing: 1px; color: var(--text); }
+        #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+        .auth-card { background: var(--card-bg); border: 1px solid var(--border); padding: 25px 20px; border-radius: 12px; width: 100%; max-width: 340px; text-align: center; }
+        
+        header { text-align: center; margin-bottom: 15px; position: relative; }
+        header h1 { margin: 0; font-size: 1.5rem; font-weight: 900; letter-spacing: 1px; }
+        header p { margin: 2px 0 0 0; color: var(--accent); font-size: 0.7rem; text-transform: uppercase; font-weight: 700; }
+        .btn-logout { position: absolute; right: 0; top: 5px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; }
 
-        header { text-align: center; margin-bottom: 20px; position: relative; padding: 10px 0; }
-        header h1 { margin: 0; font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; }
-        header p { margin: 4px 0 0 0; color: var(--accent); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
+        .box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+        .profit-box { text-align: center; padding: 15px; }
+        .profit-box h3 { margin: 0; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .profit-amount { font-size: 2.2rem; font-weight: 900; color: var(--success); margin-top: 3px; }
 
-        .btn-logout {
-            position: absolute; right: 0; top: 12px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--card-border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem;
-        }
-
-        .box {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 14px; padding: 16px; margin-bottom: 15px;
-        }
-
-        .profit-box { text-align: center; padding: 20px 10px; }
-        .profit-box h3 { margin: 0; font-size: 0.9rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-        .profit-amount { font-size: 2.4rem; font-weight: 900; color: var(--success); margin-top: 5px; }
-
-        h2 { margin-top: 0; font-size: 1.1rem; font-weight: 700; padding-bottom: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        .form-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        h2 { margin-top: 0; font-size: 1rem; font-weight: 700; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .form-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .form-inline .full-width { grid-column: span 2; }
-        .form-group { display: flex; flex-direction: column; gap: 4px; }
-        .form-group label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+        .form-group { display: flex; flex-direction: column; gap: 3px; }
+        .form-group label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
 
-        input, select {
-            width: 100%; padding: 10px; background: rgba(10, 8, 20, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08); color: white; border-radius: 8px; font-size: 0.9rem; height: 42px;
-        }
+        input, select { width: 100%; padding: 8px; background: #05040a; border: 1px solid var(--border); color: white; border-radius: 6px; font-size: 0.85rem; height: 38px; }
         input:focus, select:focus { border-color: var(--accent); outline: none; }
-
-        .btn {
-            background: var(--accent-gradient); color: white; border: none; border-radius: 8px;
-            font-weight: 700; cursor: pointer; font-size: 0.85rem; height: 42px; text-transform: uppercase; letter-spacing: 0.5px; width: 100%;
-        }
+        .btn { background: linear-gradient(45deg, #ff9800, #ff5722); color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.8rem; height: 38px; text-transform: uppercase; cursor: pointer; width: 100%; }
         .btn-promo { background: #11998e; }
-        .btn-cancel-promo { background: rgba(255, 255, 255, 0.05); color: var(--danger); border: 1px solid rgba(255,65,108,0.2); }
+        .btn-cancel-promo { background: transparent; color: var(--danger); border: 1px solid rgba(255,65,108,0.2); }
 
         /* ТАБЛИЦІ ДЛЯ ПК */
         .table-wrapper { display: block; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; display: table; }
-        th { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; padding: 10px; font-weight: 600; }
-        td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; padding: 8px; }
+        td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.02); vertical-align: middle; }
+        .btn-delete { background: transparent; color: var(--text-muted); border: none; cursor: pointer; font-size: 0.9rem; }
+        .btn-delete:hover { color: var(--danger); }
+        .badge-active { background: var(--success); color: #000; padding: 1px 4px; border-radius: 3px; font-size: 0.65rem; font-weight: 700; }
+        .checkbox-cell { width: 25px; }
+        .checkbox-cell input { transform: scale(1); accent-color: var(--accent); }
+        
+        .counter-btn { background: #18142c; color: white; border: 1px solid var(--border); width: 32px; height: 32px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; }
+        .mobile-info, .mobile-actions { display: none; }
 
-        .counter-btn {
-            background: #1c1733; color: white; border: 1px solid rgba(255,255,255,0.08);
-            width: 36px; height: 36px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 8px;
-            display: inline-flex; align-items: center; justify-content: center;
-        }
-        .btn-delete { background: rgba(255, 65, 108, 0.1); color: var(--danger); border: 1px solid rgba(255, 65, 108, 0.15); padding: 5px 9px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
-        .badge-active { background: var(--success); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
-        .checkbox-cell { width: 30px; text-align: center; }
-        .checkbox-cell input { transform: scale(1.1); accent-color: var(--accent); }
+        .title-liquid { color: var(--liquid); }
+        .title-cartridge { color: var(--cartridge); }
 
-        .title-liquid { color: var(--liquid-color); }
-        .title-cartridge { color: var(--cartridge-color); }
-
-        /* 📱 МОБІЛЬНИЙ АДАПТИВ (КАРТКИ ЗАМІСТЬ ТАБЛИЦЬ) */
+        /* 📱 УЛЬТРА-КОМПАКТНИЙ МОБІЛЬНИЙ АДАПТИВ */
         @media (max-width: 768px) {
-            header h1 { font-size: 1.5rem; }
-            .btn-logout { position: static; display: block; margin: 10px auto 0 auto; width: 80px; padding: 4px; }
+            header h1 { font-size: 1.3rem; }
+            .btn-logout { position: static; display: block; margin: 8px auto 0 auto; height: 26px; padding: 4px 10px; }
             
-            /* Ховаємо класичну таблицю */
             table thead { display: none; }
-            table, table tbody, table tr, table td { display: block; width: 100%; padding: 0; border: none; }
+            table, table tbody, table tr, table td { display: block; width: 100%; }
             
-            /* Перетворюємо рядок на красиву картку товару */
             table tr {
-                background: rgba(255, 255, 255, 0.02);
-                border: 1px solid rgba(255, 255, 255, 0.04);
-                border-radius: 12px;
-                padding: 12px;
-                margin-bottom: 10px;
-                display: grid;
-                grid-template-columns: auto 1fr auto;
-                grid-template-areas: 
-                    "check name delete"
-                    "info actions actions"
-                    "promo profit profit";
+                display: flex;
                 align-items: center;
-                gap: 8px;
+                justify-content: space-between;
+                background: rgba(255, 255, 255, 0.01);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                padding: 8px 4px;
+                margin-bottom: 2px;
             }
 
-            table tr td:nth-child(1) { grid-area: check; width: auto; } /* Чекбокс */
-            table tr td:nth-child(2) { grid-area: name; font-size: 1rem; font-weight: 700; } /* Назва */
-            table tr td:nth-child(9) { grid-area: delete; text-align: right; } /* Видалення (Х) */
-            
-            /* Блок інфо (Закупка, Ціна, Залишок) */
-            table tr td:nth-child(3), table tr td:nth-child(4), table tr td:nth-child(5) { display: none; } 
-            .mobile-info-block {
-                grid-area: info;
+            /* Ховаємо ПК стовпчики */
+            table tr td:nth-child(1), /* Чекбокс на мобілці ховаємо ради простоти, акції через ПК краще */
+            table tr td:nth-child(3), 
+            table tr td:nth-child(4), 
+            table tr td:nth-child(5),
+            table tr td:nth-child(7),
+            table tr td:nth-child(9) { display: none; }
+
+            /* Текст зліва (Назва + інфо в один рядок) */
+            table tr td:nth-child(2) {
                 display: flex;
                 flex-direction: column;
-                gap: 2px;
-                font-size: 0.8rem;
-                color: var(--text-muted);
+                max-width: 55%;
             }
-            .mobile-info-block b { color: var(--text); }
+            
+            /* Назва товару стає клікабельною для видалення */
+            table tr td:nth-child(2) .m-name { font-size: 0.9rem; font-weight: 700; color: #fff; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer; }
+            table tr td:nth-child(2) .m-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
 
-            /* Блок продажу (+ / -) */
-            table tr td:nth-child(6) { 
-                grid-area: actions; 
-                display: flex; 
-                align-items: center; 
-                justify-content: flex-end; 
-                gap: 10px;
+            /* Блок кнопок і прибутку справа */
+            table tr td:nth-child(6) {
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
-
-            table tr td:nth-child(7) { grid-area: promo; font-size: 0.8rem; } /* Акція */
-            table tr td:nth-child(8) { grid-area: profit; text-align: right; font-size: 0.9rem; font-weight: bold; } /* Прибуток */
+            .m-profit-tag { font-size: 0.8rem; font-weight: 700; color: var(--success); min-width: 45px; text-align: right; margin-left: 4px; }
+            
+            table tr td:nth-child(8) { display: block; order: 3; }
         }
     </style>
 </head>
@@ -157,20 +117,20 @@
 
 <div id="auth-screen">
     <div class="auth-card">
-        <h2>IZYSMOKE CRM</h2>
+        <h2 style="margin:0 0 15px 0; font-size:1.2rem;">IZYSMOKE CRM</h2>
         <form id="auth-form">
-            <input type="text" id="username-input" placeholder="Логін" required style="margin-bottom: 10px; padding-left: 10px;">
-            <input type="password" id="password-input" placeholder="Пароль" required style="margin-bottom: 15px; padding-left: 10px;">
+            <input type="text" id="username-input" placeholder="Логін" required style="margin-bottom: 8px; padding-left: 8px;">
+            <input type="password" id="password-input" placeholder="Пароль" required style="margin-bottom: 12px; padding-left: 8px;">
             <button type="submit" class="btn">Увійти</button>
         </form>
-        <p id="auth-error" style="color: var(--danger); font-size: 0.8rem; margin-top: 10px; display: none;">❌ Невірний логін або пароль</p>
+        <p id="auth-error" style="color: var(--danger); font-size: 0.75rem; margin-top: 8px; display: none;">❌ Помилка входу</p>
     </div>
 </div>
 
 <div class="container" id="main-container">
     <header>
         <h1>IZYSMOKE</h1>
-        <p>Панель обліку</p>
+        <p>Мінімалістичний облік</p>
         <button class="btn-logout" onclick="logout()">Вийти</button>
     </header>
 
@@ -179,15 +139,14 @@
         <div class="profit-amount"><span id="total-profit">0</span> ₴</div>
     </div>
 
-    <!-- Додавання товару -->
     <div class="box">
-        <h2>✚ Новий товар</h2>
+        <h2>✚ Додати на склад</h2>
         <form id="p-form" class="form-inline">
             <div class="form-group">
                 <label>Категорія</label>
                 <select id="category">
-                    <option value="liquid">Рідина</option>
-                    <option value="cartridge">Картридж</option>
+                    <option value="liquid">💧 Рідина</option>
+                    <option value="cartridge">🔋 Картридж</option>
                 </select>
             </div>
             <div class="form-group">
@@ -206,38 +165,23 @@
                 <label>Ціна продажу</label>
                 <input type="number" id="price" placeholder="₴" required>
             </div>
-            <div class="full-width" style="margin-top: 5px;">
+            <div class="full-width" style="margin-top: 3px;">
                 <button type="submit" class="btn">Додати</button>
             </div>
         </form>
     </div>
 
-    <!-- Управління Акціями -->
-    <div class="box">
-        <h2>⚡ Масова Акція</h2>
+    <div class="box" style="display: var(--pc-only, block);">
+        <h2>⚡ Масова Акція (Опціонально)</h2>
         <div class="form-inline">
-            <div class="form-group">
-                <label>Ціна по акції</label>
-                <input type="number" id="mass-promo-price" placeholder="₴">
-            </div>
-            <div class="form-group">
-                <label>З якого числа</label>
-                <input type="date" id="mass-promo-start">
-            </div>
-            <div class="form-group full-width">
-                <label>По яке число</label>
-                <input type="date" id="mass-promo-end">
-            </div>
-            <div style="margin-top: 5px;">
-                <button type="button" class="btn btn-promo" onclick="applyMassPromo()">Старт</button>
-            </div>
-            <div style="margin-top: 5px;">
-                <button type="button" class="btn btn-cancel-promo" onclick="cancelMassPromo()">Скинуть</button>
-            </div>
+            <div class="form-group"><label>Ціна</label><input type="number" id="mass-promo-price"></div>
+            <div class="form-group"><label>З числа</label><input type="date" id="mass-promo-start"></div>
+            <div class="form-group full-width"><label>По яке число</label><input type="date" id="mass-promo-end"></div>
+            <div style="margin-top: 2px;"><button type="button" class="btn btn-promo" onclick="applyMassPromo()">Старт</button></div>
+            <div style="margin-top: 2px;"><button type="button" class="btn btn-cancel-promo" onclick="cancelMassPromo()">Скинути</button></div>
         </div>
     </div>
 
-    <!-- РІДИНИ -->
     <div class="box">
         <h2><span class="title-liquid">💧 Рідини</span></h2>
         <div class="table-wrapper">
@@ -252,7 +196,7 @@
                         <th>Продати</th>
                         <th>Акція</th>
                         <th>Прибуток</th>
-                        <th>Дія</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="liquid-list"></tbody>
@@ -260,7 +204,6 @@
         </div>
     </div>
 
-    <!-- КАРТРИДЖІ -->
     <div class="box">
         <h2><span class="title-cartridge">🔋 Картриджі</span></h2>
         <div class="table-wrapper">
@@ -275,7 +218,7 @@
                         <th>Продати</th>
                         <th>Акція</th>
                         <th>Прибуток</th>
-                        <th>Дія</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="cartridge-list"></tbody>
@@ -299,20 +242,9 @@
         }
     });
 
-    function checkAuth() {
-        if (sessionStorage.getItem('izysmoke_auth') === 'true') showMainSystem();
-    }
-
-    function showMainSystem() {
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('main-container').style.display = 'block';
-        render();
-    }
-
-    window.logout = function() {
-        sessionStorage.removeItem('izysmoke_auth');
-        window.location.reload();
-    }
+    function checkAuth() { if (sessionStorage.getItem('izysmoke_auth') === 'true') showMainSystem(); }
+    function showMainSystem() { document.getElementById('auth-screen').style.display = 'none'; document.getElementById('main-container').style.display = 'block'; render(); }
+    window.logout = function() { sessionStorage.removeItem('izysmoke_auth'); window.location.reload(); }
 
     let db = JSON.parse(localStorage.getItem('izismoke_v7_db')) || [];
 
@@ -327,8 +259,7 @@
 
         const liquidList = document.getElementById('liquid-list');
         const cartridgeList = document.getElementById('cartridge-list');
-        liquidList.innerHTML = '';
-        cartridgeList.innerHTML = '';
+        liquidList.innerHTML = ''; cartridgeList.innerHTML = '';
         let totalProfit = 0;
 
         db.forEach((item, index) => {
@@ -338,41 +269,34 @@
             totalProfit += item.profit;
 
             let promoHTML = '<span style="color:var(--text-muted)">—</span>';
-            if (item.pPrice) {
-                promoHTML = active ? `<span class="badge-active">% ${item.pPrice}₴</span>` : `<span style="color:var(--text-muted); font-size:0.75rem;">Скоро</span>`;
-            }
+            if (item.pPrice) promoHTML = active ? `<span class="badge-active">% ${item.pPrice}₴</span>` : ``;
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="checkbox-cell"><input type="checkbox" class="select-item ${item.category}" data-index="${index}"></td>
-                <td><span style="font-weight:600;">${item.name}</span></td>
                 
-                <!-- Для ПК версії -->
+                <td>
+                    <span class="m-name" onclick="remove(${index})">${item.name}</span>
+                    <span class="m-sub">Ціна: <b>${currentPrice}₴</b> | Зал: <b>${left}/${item.qty}шт</b></span>
+                </td>
+                
                 <td>${item.cost} ₴</td>
                 <td>${currentPrice} ₴</td>
                 <td>${left} / ${item.qty} шт</td>
                 
-                <!-- Адаптивний блок для мобілок (ховається на ПК) -->
-                <div class="mobile-info-block">
-                    <span>Залишок: <b>${left} шт</b> з ${item.qty}</span>
-                    <span>Ціна: <b style="color:var(--accent)">${currentPrice} ₴</b> | Зак: ${item.cost} ₴</span>
-                </div>
-
                 <td>
                     <button class="counter-btn" type="button" onclick="sell(${index}, -1)">-</button>
-                    <span style="font-size:1.1rem; font-weight:700; margin:0 5px; display:inline-block; min-width:20px; text-align:center;">${item.sold}</span>
+                    <span style="font-size:1rem; font-weight:700; margin:0 4px; display:inline-block; min-width:18px; text-align:center;">${item.sold}</span>
                     <button class="counter-btn" type="button" onclick="sell(${index}, 1)">+</button>
                 </td>
+                
                 <td>${promoHTML}</td>
-                <td style="color:var(--success); font-weight:700;">${item.profit} ₴</td>
+                
+                <td class="m-profit-tag">${item.profit} ₴</td>
                 <td><button type="button" onclick="remove(${index})" class="btn-delete">✕</button></td>
             `;
 
-            if (item.category === 'liquid') {
-                liquidList.appendChild(tr);
-            } else {
-                cartridgeList.appendChild(tr);
-            }
+            if (item.category === 'liquid') { liquidList.appendChild(tr); } else { cartridgeList.appendChild(tr); }
         });
 
         document.getElementById('total-profit').innerText = totalProfit.toLocaleString('uk-UA');
@@ -388,8 +312,7 @@
             price: Number(document.getElementById('price').value),
             sold: 0, profit: 0, history: [], pPrice: null, pStart: null, pEnd: null
         });
-        save();
-        document.getElementById('name').value = '';
+        save(); document.getElementById('name').value = '';
     });
 
     window.sell = function(index, dir) {
@@ -399,7 +322,7 @@
         const currentMargin = currentPrice - item.cost;
 
         if (dir === 1) {
-            if (item.sold >= item.qty) return alert("Товар закінчився!");
+            if (item.sold >= item.qty) return alert("Закінчився товар!");
             item.sold += 1; item.profit += currentMargin; item.history.push(currentMargin);
         } else {
             if (item.sold <= 0) return;
@@ -413,44 +336,27 @@
         const pPrice = document.getElementById('mass-promo-price').value;
         const pStart = document.getElementById('mass-promo-start').value;
         const pEnd = document.getElementById('mass-promo-end').value;
-
-        if (!pPrice || !pStart || !pEnd) return alert("Заповніть акцію повністю!");
+        if (!pPrice || !pStart || !pEnd) return alert("Заповніть поля!");
         const checkboxes = document.querySelectorAll('.select-item:checked');
-        if (checkboxes.length === 0) return alert("Виберіть товари галочкою!");
-
-        checkboxes.forEach(cb => {
-            const index = cb.getAttribute('data-index');
-            db[index].pPrice = Number(pPrice); db[index].pStart = pStart; db[index].pEnd = pEnd;
-        });
+        if (checkboxes.length === 0) return alert("Виберіть товари!");
+        checkboxes.forEach(cb => { const index = cb.getAttribute('data-index'); db[index].pPrice = Number(pPrice); db[index].pStart = pStart; db[index].pEnd = pEnd; });
         clearPromoForm(); save();
     }
 
     window.cancelMassPromo = function() {
         const checkboxes = document.querySelectorAll('.select-item:checked');
-        if (checkboxes.length === 0) return alert("Виберіть товари галочкою!");
-        checkboxes.forEach(cb => {
-            const index = cb.getAttribute('data-index');
-            db[index].pPrice = null; db[index].pStart = null; db[index].pEnd = null;
-        });
+        if (checkboxes.length === 0) return alert("Виберіть товари!");
+        checkboxes.forEach(cb => { const index = cb.getAttribute('data-index'); db[index].pPrice = null; db[index].pStart = null; db[index].pEnd = null; });
         clearPromoForm(); save();
     }
 
     function clearPromoForm() {
-        document.getElementById('mass-promo-price').value = '';
-        document.getElementById('mass-promo-start').value = '';
-        document.getElementById('mass-promo-end').value = '';
+        document.getElementById('mass-promo-price').value = ''; document.getElementById('mass-promo-start').value = ''; document.getElementById('mass-promo-end').value = '';
         document.querySelectorAll('.select-item').forEach(cb => cb.checked = false);
-        document.querySelectorAll('thead input[type="checkbox"]').forEach(cb => cb.checked = false);
     }
 
-    window.toggleAll = function(cat, masterCb) {
-        document.querySelectorAll(`.select-item.${cat}`).forEach(cb => cb.checked = masterCb.checked);
-    }
-
-    window.remove = function(index) {
-        if(confirm(`Видалити цей товар зі складу?`)) { db.splice(index, 1); save(); }
-    }
-
+    window.toggleAll = function(cat, masterCb) { document.querySelectorAll(`.select-item.${cat}`).forEach(cb => cb.checked = masterCb.checked); }
+    window.remove = function(index) { if(confirm(`Видалити товар "${db[index].name}" зі складу?`)) { db.splice(index, 1); save(); } }
     function save() { localStorage.setItem('izismoke_v7_db', JSON.stringify(db)); render(); }
     
     checkAuth();
